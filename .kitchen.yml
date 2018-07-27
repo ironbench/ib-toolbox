@@ -1,0 +1,26 @@
+---
+  driver:
+    name: docker
+    remove_images: true
+    use_sudo: false
+
+  platforms:
+    - name: ib-toolbox
+      driver_config:
+        image: debian:stable-slim
+        platform: debian
+
+  provisioner:
+    name: chef_zero
+    always_update_cookbooks: true
+
+  verifier:
+    name: inspec
+
+  suites:
+    - name: integration
+      run_list:
+        - recipe[ib-toolbox]
+      verifier:
+        inspec_tests:
+          - test/integration

@@ -1,0 +1,60 @@
+{
+  "variables": {
+    "image_name_tag": "ib-toolbox",
+    "docker_image": "debian:stable-slim",
+    "chef_version": "14.0.202",
+    "docker_tag": "branch"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "{{user `docker_image`}}",
+      "commit": "true",
+      "run_command": [
+        "-d",
+        "-i",
+        "-v",
+        "-t", "{{.Image}}",
+        "/bin/bash"
+      ],
+      "changes": [
+        "WORKDIR /data",
+        "VOLUME /data"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell-local",
+      "inline": [
+        "berks vendor cookbooks/"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get update",
+        "apt-get install -y curl"
+      ]
+    },
+    {
+      "execute_command": "chef-solo --no-color --legacy-mode -c {{.ConfigPath}} -j {{.JsonPath}}",
+      "install_command": "curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v {{user `chef_version`}}",
+      "run_list": [
+        "ib-toolbox"
+      ],
+      "cookbook_paths": [
+        "cookbooks"
+      ],
+      "type": "chef-solo",
+      "prevent_sudo": "true"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "repository": "ironbench/ib-toolbox",
+      "tag": "{{user `docker_tag`}}"
+    }
+  ]
+}
