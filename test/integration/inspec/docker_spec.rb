@@ -8,18 +8,7 @@
 #
 # ----------------------------------------------------------------------------------
 
-case node['platform_family']
-when 'debian', 'ubuntu'
-  execute 'apt_update' do
-    command 'apt-get update'
-  end
-when 'amazon', 'centos', 'fedora', 'redhat'
-  execute 'yum_update' do
-    command 'yum update'
-  end
+describe command('docker --version') do
+  its('stdout') { should include 'Docker version' }
+  its(:exit_status) { should eq 0 }
 end
-
-include_recipe 'ib-toolbox::chefdk'
-include_recipe 'ib-toolbox::docker'
-include_recipe 'ib-toolbox::packer'
-include_recipe 'ib-toolbox::terraform'

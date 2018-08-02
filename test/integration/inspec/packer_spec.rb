@@ -16,4 +16,5 @@ end
 
 describe command('packer version') do
   its('stdout') { should include 'Packer v' }
+  its(:exit_status) { should eq 0 }
 end

@@ -24,3 +24,5 @@ end
 chef_version '>= 13.2'
 
 version '0.0.1'
+
+depends 'docker'

@@ -19,7 +19,7 @@
       ],
       "changes": [
         "WORKDIR /data",
-        "VOLUME /data"
+        "VOLUME /data /root/.aws /root/.chef"
       ]
     }
   ],

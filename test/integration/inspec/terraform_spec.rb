@@ -16,4 +16,5 @@ end
 
 describe command('terraform version') do
   its('stdout') { should include 'Terraform v' }
+  its(:exit_status) { should eq 0 }
 end

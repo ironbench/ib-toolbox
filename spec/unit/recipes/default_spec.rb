@@ -14,12 +14,24 @@ describe 'ib-toolbox::default' do
   let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before(:each) do
+    allow_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('ib-toolbox::chefdk')
+    allow_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('ib-toolbox::docker')
     allow_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('ib-toolbox::packer')
     allow_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('ib-toolbox::terraform')
   end
 
   it 'apt update' do
     expect(chef_run).to run_execute('apt-get update')
+  end
+
+  it 'include ib-toolbox::chefdk' do
+    expect_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('ib-toolbox::chefdk')
+    chef_run
+  end
+
+  it 'include ib-toolbox::docker' do
+    expect_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('ib-toolbox::docker')
+    chef_run
   end
 
   it 'include ib-toolbox::packer' do

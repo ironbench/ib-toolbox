@@ -8,18 +8,12 @@
 #
 # ----------------------------------------------------------------------------------
 
-case node['platform_family']
-when 'debian', 'ubuntu'
-  execute 'apt_update' do
-    command 'apt-get update'
-  end
-when 'amazon', 'centos', 'fedora', 'redhat'
-  execute 'yum_update' do
-    command 'yum update'
+require 'spec_helper'
+
+describe 'ib-toolbox::docker' do
+  let(:chef_run) { ChefSpec::SoloRunner.new(step_into: ['docker_installation_script']).converge(described_recipe) }
+
+  it 'installs docker' do
+    expect(chef_run).to create_docker_installation_script('default')
   end
 end
-
-include_recipe 'ib-toolbox::chefdk'
-include_recipe 'ib-toolbox::docker'
-include_recipe 'ib-toolbox::packer'
-include_recipe 'ib-toolbox::terraform'

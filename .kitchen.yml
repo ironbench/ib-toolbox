@@ -2,7 +2,10 @@
   driver:
     name: docker
     remove_images: true
-    use_sudo: false
+    privileged: true
+    ssh_host: 172.17.0.1
+    volume:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   platforms:
     - name: ib-toolbox

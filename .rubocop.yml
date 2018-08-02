@@ -1,0 +1,4 @@
+AllCops:
+  Exclude:
+    - files/default/docker.rb
+    - 'cookbooks/**/*'
