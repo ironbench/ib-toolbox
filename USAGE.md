@@ -15,3 +15,4 @@ alias rubocop='docker run -it -v $HOME/.aws:/root/.aws -v $(pwd):/data ironbench
 alias chef='docker run -it -v $HOME/.aws:/root/.aws -v $(pwd):/data ironbench/ib-toolbox:latest chef'
 alias kitchen='docker run --privileged -it -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.aws:/root/.aws -v $(pwd):/data ironbench/ib-toolbox:latest kitchen'
 alias foodcritic='docker run -it -v $(pwd):/data ironbench/ib-toolbox:latest foodcritic'
+alias berks='docker run -it -v $(pwd):/data ironbench/ib-toolbox:latest berks'

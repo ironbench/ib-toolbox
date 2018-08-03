@@ -8,6 +8,11 @@
 #
 # ----------------------------------------------------------------------------------
 
+describe command('git --version') do
+  its('stdout') { should include 'git version' }
+  its(:exit_status) { should eq 0 }
+end
+
 describe command('chef --version') do
   its('stdout') { should include 'Chef Development Kit Version:' }
   its(:exit_status) { should eq 0 }

@@ -18,6 +18,10 @@ describe 'ib-toolbox::chefdk' do
     allow(File).to receive(:exist?).with("#{Chef::Config[:file_cache_path]}/chefdk.deb").and_return(false)
   end
 
+  it 'install git pacakge' do
+    expect(chef_run).to install_package('git')
+  end
+
   it 'download chefdk' do
     expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/chefdk.deb")
   end

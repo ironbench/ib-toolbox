@@ -8,6 +8,8 @@
 #
 # ----------------------------------------------------------------------------------
 
+package 'git'
+
 case node['platform_family']
 when 'debian', 'ubuntu'
   remote_file "#{Chef::Config[:file_cache_path]}/chefdk.deb" do
