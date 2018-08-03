@@ -3,7 +3,7 @@
     "image_name_tag": "ib-toolbox",
     "docker_image": "debian:stable-slim",
     "chef_version": "14.0.202",
-    "docker_tag": "branch"
+    "docker_tag": "1.0.0"
   },
   "builders": [
     {
