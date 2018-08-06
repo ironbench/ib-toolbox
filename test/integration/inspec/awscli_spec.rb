@@ -8,19 +8,16 @@
 #
 # ----------------------------------------------------------------------------------
 
-case node['platform_family']
-when 'debian', 'ubuntu'
-  execute 'apt_update' do
-    command 'apt-get update'
+if os[:family] == 'debian' || os[:family] == 'ubuntu'
+  describe package('python-setuptools') do
+    it { should be_installed }
   end
-when 'amazon', 'centos', 'fedora', 'redhat'
-  execute 'yum_update' do
-    command 'yum update'
+
+  describe package('unzip') do
+    it { should be_installed }
+  end
+
+  describe command('aws --version') do
+    its(:exit_status) { should eq 0 }
   end
 end
-
-include_recipe 'ib-toolbox::awscli'
-include_recipe 'ib-toolbox::chefdk'
-include_recipe 'ib-toolbox::docker'
-include_recipe 'ib-toolbox::packer'
-include_recipe 'ib-toolbox::terraform'
