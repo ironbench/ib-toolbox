@@ -31,10 +31,16 @@ describe 'ib-toolbox::awscli' do
   end
 
   it 'extract awscli bundle' do
+    item = chef_run.execute('unzip_awscli_bundle')
+    expect(item.command).to match("unzip -o #{Chef::Config[:file_cache_path]}/awscli-bundle.zip -d #{Chef::Config[:file_cache_path]}")
+    expect(item).to do_nothing
     expect(chef_run.remote_file("#{Chef::Config[:file_cache_path]}/awscli-bundle.zip")).to notify('execute[unzip_awscli_bundle]').to(:run).immediately
   end
 
   it 'install awscli bundle' do
+    item = chef_run.execute('install_awscli_bundle')
+    expect(item.command).to match("python #{Chef::Config[:file_cache_path]}/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws")
+    expect(item).to do_nothing
     expect(chef_run.execute('unzip_awscli_bundle')).to notify('execute[install_awscli_bundle]').to(:run).immediately
   end
 end
