@@ -29,3 +29,13 @@ describe command('chef gem list') do
   its('stdout') { should include 'knife-block' }
   its('stdout') { should include 'docker-api' }
 end
+
+describe command("su - -c 'chef gem list'") do
+  its('stdout') { should include 'awspec' }
+  its(:exit_status) { should eq 0 }
+end
+
+describe command("su - -c 'awspec help'") do
+  its('stdout') { should include 'Generate AWS resource' }
+  its(:exit_status) { should eq 0 }
+end

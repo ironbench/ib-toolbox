@@ -45,6 +45,22 @@ describe 'ib-toolbox::chefdk' do
     end
   end
 
+  before do
+    stub_command("su - -c 'chef gem list | grep awspec'").and_return(false)
+  end
+
+  it 'install awspec' do
+    item = chef_run.execute('install_awspec')
+    expect(item.command).to match("su - -c 'chef gem install awspec'")
+    expect(chef_run).to run_execute('install_awspec')
+  end
+
+  it 'configure awspec' do
+    item = chef_run.execute('configure_awspec')
+    expect(item.command).to match('ln -s /root/.chefdk/gem/ruby/2.5.0/bin/awspec /usr/bin/awspec')
+    expect(chef_run).to run_execute('configure_awspec')
+  end
+
   it 'install pinned version of docker-api' do
     expect(chef_run).to install_gem_package('docker-api').with(gem_binary: '/opt/chefdk/embedded/bin/gem', options: '--no-user-install --no-document --no-format-exec', version: '1.34.0')
   end
