@@ -55,6 +55,16 @@ when 'debian', 'ubuntu', 'amazon', 'centos', 'fedora', 'redhat'
     gem_binary '/opt/chefdk/embedded/bin/gem'
   end
 
+  execute 'install_awspec' do
+    command "su - -c 'chef gem install awspec'"
+    not_if "su - -c 'chef gem list | grep awspec'"
+  end
+
+  execute 'configure_awspec' do
+    command 'ln -s /root/.chefdk/gem/ruby/2.5.0/bin/awspec /usr/bin/awspec'
+    not_if { ::File.exist?('/usr/bin/awspec') }
+  end
+
   cookbook_file '/opt/chefdk/embedded/lib/ruby/gems/2.5.0/gems/kitchen-docker-2.7.0/lib/kitchen/driver/docker.rb' do
     source 'docker.rb'
     owner 'root'
